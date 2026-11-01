@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#100d20">
+    <meta name="description" content="Party Spin: ruletas personalizables y bingo local para jugar con amigos.">
+    <title>Party Spin — Ruletas y Bingo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/storage.js" defer></script>
+    <script src="js/roulette.js" defer></script>
+    <script src="js/bingo.js" defer></script>
+    <script src="js/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-header">
+        <button class="brand" type="button" data-screen="home" aria-label="Ir al inicio">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>PARTY<span class="brand-accent">SPIN</span></span>
+        </button>
+        <nav class="main-nav" aria-label="Juegos">
+          <button type="button" data-screen="home" class="nav-link is-active">Inicio</button>
+          <button type="button" data-screen="roulette" class="nav-link">🎡 Ruletas</button>
+          <button type="button" data-screen="bingo" class="nav-link">🎱 Bingo</button>
+        </nav>
+        <button id="open-settings" class="icon-button settings-trigger" type="button" aria-label="Abrir configuración" title="Configuración">⚙️</button>
+      </header>
+
+      <main id="main-content">
+        <section id="home-screen" class="screen home-screen" aria-labelledby="home-title">
+          <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+          <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+          <div class="hero-content">
+            <span class="eyebrow"><span class="sparkle" aria-hidden="true">✦</span> TU NOCHE, TUS REGLAS</span>
+            <h1 id="home-title">Que empiece<br><span>el juego.</span></h1>
+            <p>Dos juegos para romper el hielo, tomar decisiones y armar una noche inolvidable. Elegí uno y empezá a jugar.</p>
+          </div>
+          <div class="game-grid" aria-label="Elegí un juego">
+            <button type="button" data-screen="roulette" class="game-card roulette-card">
+              <span class="game-card-icon" aria-hidden="true">🎡</span>
+              <span class="game-card-content">
+                <span class="game-card-kicker">DEJALO AL AZAR</span>
+                <strong>Ruletas</strong>
+                <span>Dos giros, infinitas combinaciones. Personalizá colores, comidas y lo que se te ocurra.</span>
+                <span class="game-card-action">Jugar ruletas <span aria-hidden="true">↗</span></span>
+              </span>
+            </button>
+            <button type="button" data-screen="bingo" class="game-card bingo-card">
+              <span class="game-card-icon" aria-hidden="true">🎱</span>
+              <span class="game-card-content">
+                <span class="game-card-kicker">EL CLÁSICO DE SIEMPRE</span>
+                <strong>Bingo</strong>
+                <span>Generá tu cartón, sorteá números y cantá línea o bingo con tus amigos.</span>
+                <span class="game-card-action">Jugar bingo <span aria-hidden="true">↗</span></span>
+              </span>
+            </button>
+          </div>
+          <p class="home-note">✳ Todo funciona en este dispositivo. Para jugar por Discord, compartí tu pantalla o anunciá los resultados.</p>
+        </section>
+
+        <section id="roulette-screen" class="screen game-screen" aria-labelledby="roulette-title" hidden>
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">🎡 MODO RULETAS</span>
+              <h1 id="roulette-title">Dale una vuelta<br><span>al plan.</span></h1>
+              <p>Girálas por separado o juntas. El indicador de arriba marca el resultado.</p>
+            </div>
+            <button id="spin-both" class="button button-primary button-both" type="button">✨ Girar ambas</button>
+          </div>
+
+          <div class="wheel-grid">
+            <article class="wheel-panel" aria-labelledby="wheel-title-a">
+              <div class="wheel-panel-head">
+                <span class="panel-index">01</span>
+                <div><h2 id="wheel-title-a">Ruleta de colores</h2><p>¿Qué color te toca?</p></div>
+              </div>
+              <div class="wheel-wrap">
+                <span class="wheel-pointer" aria-hidden="true"></span>
+                <canvas id="wheel-a" class="wheel-canvas" width="600" height="600" role="img" aria-label="Ruleta de colores con indicador arriba"></canvas>
+                <button id="center-a" class="wheel-center" type="button" aria-label="Girar ruleta de colores">GIRAR</button>
+              </div>
+              <p id="wheel-status-a" class="wheel-status" aria-live="polite">Lista para girar</p>
+              <button id="spin-a" class="button button-secondary wheel-spin" type="button">Girar colores <span aria-hidden="true">↗</span></button>
+            </article>
+
+            <article class="wheel-panel" aria-labelledby="wheel-title-b">
+              <div class="wheel-panel-head">
+                <span class="panel-index">02</span>
+                <div><h2 id="wheel-title-b">Ruleta de categorías</h2><p>¿Qué vas a llevar?</p></div>
+              </div>
+              <div class="wheel-wrap">
+                <span class="wheel-pointer" aria-hidden="true"></span>
+                <canvas id="wheel-b" class="wheel-canvas" width="600" height="600" role="img" aria-label="Ruleta de categorías con indicador arriba"></canvas>
+                <button id="center-b" class="wheel-center" type="button" aria-label="Girar ruleta de categorías">GIRAR</button>
+              </div>
+              <p id="wheel-status-b" class="wheel-status" aria-live="polite">Lista para girar</p>
+              <button id="spin-b" class="button button-secondary wheel-spin" type="button">Girar categorías <span aria-hidden="true">↗</span></button>
+            </article>
+          </div>
+
+          <section id="result-card" class="result-card" aria-labelledby="result-title">
+            <div class="result-burst" aria-hidden="true">✦</div>
+            <div class="result-main">
+              <span class="eyebrow">EL VEREDICTO ESTÁ LISTO</span>
+              <h2 id="result-title">🎉 ¡Te tocó!</h2>
+              <p id="result-empty" class="result-empty">Girás una ruleta y acá aparece el resultado.</p>
+              <div id="result-details" class="result-details" hidden>
+                <div id="result-color" class="result-item" hidden></div>
+                <div id="result-category" class="result-item" hidden></div>
+                <p id="result-instruction" class="result-instruction" hidden></p>
+              </div>
+              <div class="result-actions">
+                <button id="copy-result" class="button button-small" type="button" disabled>📋 Copiar</button>
+                <button id="share-result" class="button button-small" type="button" disabled>↗ Compartir</button>
+                <button id="reset-results" class="button button-small button-quiet" type="button" disabled>Reiniciar resultado</button>
+                <button id="toggle-history" class="button button-small button-quiet" type="button" aria-expanded="false" aria-controls="history-panel">Ver historial</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="history-panel" class="history-panel" aria-labelledby="history-title" hidden>
+            <div class="history-head"><h2 id="history-title">Historial de giros</h2><button id="clear-history" class="button button-small button-danger" type="button">Limpiar historial</button></div>
+            <ol id="history-list" class="history-list"></ol>
+          </section>
+        </section>
+
+        <section id="bingo-screen" class="screen game-screen" aria-labelledby="bingo-title" hidden>
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">🎱 MODO BINGO</span>
+              <h1 id="bingo-title">Marcá, cantá<br><span>y festejá.</span></h1>
+              <p>Cada dispositivo tiene su propia partida. Si jugás por Discord, marcá los números que anuncie el anfitrión.</p>
+            </div>
+          </div>
+          <div class="bingo-layout">
+            <section class="bingo-panel card-panel" aria-labelledby="card-title">
+              <div class="panel-heading"><div><span class="panel-index">TU CARTÓN</span><h2 id="card-title">A jugar</h2></div><span id="bingo-progress" class="progress-pill">0 / 0</span></div>
+              <div class="card-controls">
+                <label for="bingo-size">Tamaño</label>
+                <select id="bingo-size" aria-label="Tamaño del cartón"><option value="5">5 × 5 clásico</option><option value="3">3 × 3 rápido</option></select>
+                <button id="new-card" class="button button-secondary" type="button">+ Nuevo cartón</button>
+              </div>
+              <div id="bingo-card" class="bingo-board" aria-label="Cartón de bingo"></div>
+              <p id="bingo-status" class="bingo-status" aria-live="polite">Marcá los números de tu cartón.</p>
+            </section>
+            <section class="bingo-panel host-panel" aria-labelledby="host-title">
+              <div class="panel-heading"><div><span class="panel-index">PANEL DEL ANFITRIÓN</span><h2 id="host-title">Sorteo de números</h2></div><span id="drawn-count" class="progress-pill">0 / 75</span></div>
+              <p class="host-description">Sorteá sin repetir. Anunciá cada número por voz si tus amigos juegan desde otros dispositivos.</p>
+              <div class="last-ball-wrap"><span>ÚLTIMO NÚMERO</span><div id="last-number" class="last-ball" aria-live="polite">—</div></div>
+              <button id="draw-number" class="button button-primary draw-button" type="button">🎱 Sortear número</button>
+              <div class="drawn-heading"><h3>Números sorteados</h3><button id="reset-game" class="button button-small button-quiet" type="button">Reiniciar partida</button></div>
+              <div id="drawn-list" class="drawn-list"><p class="empty-draws">Todavía no salió ningún número.</p></div>
+            </section>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer"><span>PARTY SPIN ✦</span><span>Hecho para jugar juntos, cada uno desde donde esté.</span></footer>
+    </div>
+
+    <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+      <div class="settings-header"><div><span class="eyebrow">HACÉLO A TU MANERA</span><h2 id="settings-title">Configuración</h2></div><button id="close-settings" class="icon-button close-button" type="button" aria-label="Cerrar configuración">✕</button></div>
+      <div class="settings-body">
+        <section class="settings-section" aria-labelledby="settings-general-title">
+          <h3 id="settings-general-title">General</h3>
+          <label class="toggle-row" for="sound-enabled"><span><strong>Sonidos</strong><small>Efectos al girar y celebrar</small></span><input id="sound-enabled" type="checkbox"></label>
+        </section>
+        <section class="settings-section" aria-labelledby="settings-a-title">
+          <div class="settings-section-head"><div><h3 id="settings-a-title">🎨 Colores</h3><p>Personalizá los sectores y el centro.</p></div><button id="add-sector-a" class="button button-small button-secondary" type="button">+ Agregar</button></div>
+          <label class="field-label" for="center-text-a">Texto del centro</label><input id="center-text-a" class="text-input center-text-input" type="text" maxlength="14" autocomplete="off">
+          <div id="sectors-a" class="sector-list" aria-label="Sectores de colores"></div>
+        </section>
+        <section class="settings-section" aria-labelledby="settings-b-title">
+          <div class="settings-section-head"><div><h3 id="settings-b-title">🍕 Categorías</h3><p>Emojis, textos y colores a tu gusto.</p></div><button id="add-sector-b" class="button button-small button-secondary" type="button">+ Agregar</button></div>
+          <label class="field-label" for="center-text-b">Texto del centro</label><input id="center-text-b" class="text-input center-text-input" type="text" maxlength="14" autocomplete="off">
+          <div id="sectors-b" class="sector-list" aria-label="Sectores de categorías"></div>
+        </section>
+        <section class="settings-section settings-data" aria-labelledby="settings-data-title">
+          <h3 id="settings-data-title">Compartir configuración</h3><p>Exportá tus ruletas a un archivo JSON o importá las de un amigo.</p>
+          <div class="settings-data-actions"><button id="export-config" class="button button-secondary" type="button">↓ Exportar JSON</button><button id="import-config" class="button button-secondary" type="button">↑ Importar JSON</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>
+          <button id="restore-defaults" class="button button-danger" type="button">Restaurar valores predeterminados</button>
+        </section>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <div id="celebration-layer" class="celebration-layer" aria-hidden="true"></div>
+  </body>
+</html>
